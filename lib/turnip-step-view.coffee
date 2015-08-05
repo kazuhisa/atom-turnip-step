@@ -1,24 +1,22 @@
-{View} = require 'atom'
-
 module.exports =
-class TurnipStepView extends View
-  @content: ->
-    @div class: 'turnip-step overlay from-top', =>
-      @div "The TurnipStep package is Alive! It's ALIVE!", class: "message"
+class TurnipStepView
+  constructor: (serializedState) ->
+    # Create root element
+    @element = document.createElement('div')
+    @element.classList.add('turnip-step')
 
-  initialize: (serializeState) ->
-    atom.commands.add 'atom-workspace', 'turnip-step:toggle': => @toggle()
+    # Create message element
+    message = document.createElement('div')
+    message.textContent = "The TurnipStep package is Alive! It's ALIVE!"
+    message.classList.add('message')
+    @element.appendChild(message)
 
   # Returns an object that can be retrieved when package is activated
   serialize: ->
 
   # Tear down any state and detach
   destroy: ->
-    @detach()
+    @element.remove()
 
-  toggle: ->
-    console.log "TurnipStepView was toggled!"
-    if @hasParent()
-      @detach()
-    else
-      atom.workspaceView.append(this)
+  getElement: ->
+    @element

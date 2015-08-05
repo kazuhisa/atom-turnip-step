@@ -2,13 +2,13 @@ StepJumper = require "../lib/step-jumper"
 
 describe "jumping", ->
   beforeEach ->
-    @stepJumper = new StepJumper("  Given I have a cheese")
+    @stepJumper = new StepJumper(" Given I_have_a_cheese")
 
   describe "stepTypeRegex", ->
     it "should match right step types", ->
-      expect("Given(/I have a cheese/)".match(@stepJumper.stepTypeRegex())).toBeTruthy()
+      expect("step 'I_have_a_cheese' do".match(@stepJumper.stepTypeRegex())).toBeTruthy()
     it "should not match wrong step types", ->
-      expect("When(/I have a cheese/)".match(@stepJumper.stepTypeRegex())).toBeFalsy()
+      expect("user = User.find(1)".match(@stepJumper.stepTypeRegex())).toBeFalsy()
 
   describe "checkMatch", ->
     beforeEach ->

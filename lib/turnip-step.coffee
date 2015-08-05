@@ -4,14 +4,15 @@ module.exports =
   turnipStepView: null
 
   activate: (state) ->
-    atom.workspaceView.command "turnip-step:jump-to-step", =>
-      currentLine = atom.workspace.getActiveEditor().getCursor().getCurrentBufferLine()
+    atom.commands.add 'atom-workspace', 'turnip-step:jump-to-step': =>
+      row = atom.workspace.getActiveTextEditor().getCursorBufferPosition().row
+      currentLine = atom.workspace.getActiveTextEditor().lineTextForBufferRow(row)
       stepJumper = new StepJumper(currentLine)
       return unless stepJumper.prepositionOrAdverb
       options =
         paths: ["spec/steps/**/*.rb"]
 
-      atom.project.scan stepJumper.stepTypeRegex(), options, (match) ->
+      atom.workspace.scan stepJumper.stepTypeRegex(), options, (match) ->
         if foundMatch = stepJumper.checkMatch(match)
           [file, line] = foundMatch
           console.log("Found match at #{file}:#{line}")

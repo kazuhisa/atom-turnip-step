@@ -7,7 +7,7 @@ class TurnipStepView extends View
       @div "The TurnipStep package is Alive! It's ALIVE!", class: "message"
 
   initialize: (serializeState) ->
-    atom.workspaceView.command "turnip-step:toggle", => @toggle()
+    atom.commands.add 'atom-workspace', 'turnip-step:toggle': => @toggle()
 
   # Returns an object that can be retrieved when package is activated
   serialize: ->
